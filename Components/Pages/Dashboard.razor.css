@@ -93,6 +93,28 @@ html, body, #app, .dashboard-container {
     letter-spacing: 0.5px;
 }
 
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-right: 2px solid rgba(255, 255, 255, 0.5);
+    padding-right: 1.5vw;
+    margin-right: 1vw;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-image {
+    height: 45px;
+    width: auto;
+    /*    object-fit: contain;*/
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
 .dashboard-title {
     margin-left: 1.2vw;
     line-height: 1.1;
@@ -274,7 +296,7 @@ html, body, #app, .dashboard-container {
     color: #006A4E;
     font-size: 1.1vw;
     font-weight: 600;
-    margin-bottom: 2vh;
+    margin-bottom: 5vh;
     text-align: center;
     line-height: 1.4;
 }
@@ -295,6 +317,7 @@ html, body, #app, .dashboard-container {
     flex-direction: column;
     align-items: center;
     gap: 0.6vh;
+    padding-top: 4vh;
 }
 
 .bar {
@@ -313,9 +336,40 @@ html, body, #app, .dashboard-container {
 }
 
 .bar-value {
-    color: white;
-    font-size: 1.6vw;
-    font-weight: 700;
+    color: #006A4E;
+    font-size: 1.4vw;
+    font-weight: 300;
+    position: absolute;
+    top: -3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding:20px;
+}
+
+.card-title {
+    color: #006A4E;
+    font-size: 1.1vw;
+    font-weight: 600;
+    margin-bottom: 3vh;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* Responsive adjustments for large screens */
+@media (min-width: 1920px) {
+    .bar-wrapper {
+        padding-top: 3.5vh;
+    }
+    
+    .bar-value {
+        top: -2.5vh;
+        font-size: 1.2vw;
+    }
+    
+    .card-title {
+        margin-bottom: 2.5vh;
+    }
 }
 
 .operator-badge {
@@ -324,7 +378,7 @@ html, body, #app, .dashboard-container {
     gap: 0.4vw;
     padding: 0.4vh 0.8vw;
     border-radius: 20px;
-    background: #f5f5f5;
+    background: #AAD3C380;
     font-size: 0.7vw;
     font-weight: 600;
     margin-bottom: 0.5vh;
