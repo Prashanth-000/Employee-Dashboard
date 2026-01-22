@@ -1,8 +1,8 @@
-# Chamundi Die Cast - Employee Management System
+﻿# Chamundi Die Cast - Employee Management System
 
 A modern employee management system built with Blazor Server for Chamundi Die Cast company.
 
-## ?? Features
+## 🚀 Features
 
 - **Employee Information Management**: View, add, and delete employee records
 - **Real-time Updates**: Interactive Server-side rendering for instant UI updates
@@ -11,38 +11,38 @@ A modern employee management system built with Blazor Server for Chamundi Die Ca
 - **Status Tracking**: Monitor employee status (Active/Inactive)
 - **Responsive Design**: Modern, gradient-based UI with custom styling
 
-## ?? Prerequisites
+## 📋 Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - A modern web browser (Chrome, Edge, Firefox, or Safari)
 - Visual Studio 2022 (version 17.12+) or Visual Studio Code with C# Dev Kit
 
-## ??? Technology Stack
+## 🛠️ Technology Stack
 
 - **Framework**: Blazor Server (.NET 10)
 - **Language**: C# 14.0
 - **Rendering Mode**: Interactive Server
 - **UI**: Custom CSS with gradient designs
 
-## ?? Project Structure
+## 📁 Project Structure
 
 ```
-??? Components/
-?   ??? Layout/
-?   ?   ??? NavMenu.razor
-?   ??? Pages/
-?   ?   ??? Dashboard.razor
-?   ?   ??? EmployeeInfo.razor
-?   ?   ??? *.razor.css (component-specific styles)
-?   ??? App.razor
-??? wwwroot/
-?   ??? emp_logo.png
-?   ??? AMIT_logo.png
-?   ??? ace-micro.png
-??? README.md
+├── Components/
+│   ├── Layout/
+│   │   └── NavMenu.razor
+│   ├── Pages/
+│   │   ├── Dashboard.razor
+│   │   ├── EmployeeInfo.razor
+│   │   └── *.razor.css (component-specific styles)
+│   └── App.razor
+├── wwwroot/
+│   ├── emp_logo.png
+│   ├── AMIT_logo.png
+│   └── ace-micro.png
+└── README.md
 ```
 
-## ?? Getting Started
+## 🚦 Getting Started
 
 ### Installation
 
@@ -72,7 +72,7 @@ A modern employee management system built with Blazor Server for Chamundi Die Ca
    ```
    (The port number will be displayed in the console output)
 
-## ?? Usage
+## 📖 Usage
 
 ### Employee Information Page
 
@@ -83,7 +83,7 @@ Access the employee information page at `/employee-info`:
   - Fill in all required fields (Employee ID, Name, Role, Phone, Station ID, Plant ID, Date of Joining, Password)
   - Click "Add" to save or "Cancel" to discard
 - **View All Employees**: Click "View All" to see a complete list of all employees
-- **Delete Employee**: Click the ??? icon to remove an employee
+- **Delete Employee**: Click the trash icon to remove an employee
 
 ### Default Employees
 
@@ -94,7 +94,7 @@ The system comes pre-loaded with 5 sample employees:
 - A864 - Suresh Reddy (Technician)
 - A865 - Anita Desai (Quality Inspector)
 
-## ?? Customization
+## 🎨 Customization
 
 ### Styling
 
@@ -107,7 +107,7 @@ Currently, employee data is stored in-memory. For production use, consider imple
 - Azure Cosmos DB
 - Any other database provider
 
-## ?? Development
+## 🔧 Development
 
 ### Running in Development Mode
 
@@ -123,7 +123,7 @@ This enables hot reload for rapid development.
 dotnet publish -c Release -o ./publish
 ```
 
-## ?? Future Enhancements
+## Future Enhancements
 
 - [ ] Database integration for persistent storage
 - [ ] User authentication and authorization
@@ -135,24 +135,14 @@ dotnet publish -c Release -o ./publish
 - [ ] Edit employee functionality
 - [ ] Bulk employee import
 
-## ?? Contributing
+## Contributing
 
 1. Create a feature branch
 2. Make your changes
 3. Test thoroughly
 4. Submit a pull request
 
-## ?? License
-
-[Specify your license here]
-
-## ?? Support
-
-For support or questions, please contact:
-- **Company**: Chamundi Die Cast
-- **Partners**: AMiT & Ace Micromatic Group
-
-## ?? About
+## About
 
 Developed for Chamundi Die Cast in collaboration with AMiT and Ace Micromatic Group.
 
