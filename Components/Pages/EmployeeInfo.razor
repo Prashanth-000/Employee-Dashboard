@@ -57,7 +57,7 @@
 
                 <div class="search-section">
                     <a href="javascript:void(0)" class="add-employee" @onclick="ShowAddEmployeeForm">
-                        <i class="fas fa-plus-circle"></i> Add a new employee
+                        <i class="fas fa-plus-circle"></i> + Add a new employee
                     </a>
                 </div>
 
@@ -66,15 +66,15 @@
                     <div class="info-grid">
                         <div class="info-item">
                             <span class="info-label">Employee ID</span>
-                            <input type="text" class="info-value" @bind="newEmployee.EmployeeId" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                            <input type="text" class="info-value" @bind="newEmployee.EmployeeId" />
                         </div>
                         <div class="info-item">
                             <span class="info-label">Employee Name</span>
-                            <input type="text" class="info-value" @bind="newEmployee.Name" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                            <input type="text" class="info-value" @bind="newEmployee.Name" />
                         </div>
                         <div class="info-item">
                             <span class="info-label">Employee Role</span>
-                            <input type="text" class="info-value" @bind="newEmployee.Role" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                            <input type="text" class="info-value" @bind="newEmployee.Role" />
                         </div>
                     </div>
 
@@ -83,15 +83,15 @@
                     <div class="info-grid">
                         <div class="info-item">
                             <span class="info-label">Phone Number</span>
-                            <input type="text" class="info-value" @bind="newEmployee.PhoneNumber" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                            <input type="text" class="info-value" @bind="newEmployee.PhoneNumber" />
                         </div>
                         <div class="info-item">
                             <span class="info-label">Station ID</span>
-                            <input type="text" class="info-email" @bind="newEmployee.StationId" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                            <input type="text" class="info-email" @bind="newEmployee.StationId" />
                         </div>
                         <div class="info-item">
                             <span class="info-label">Plant ID</span>
-                            <input type="text" class="info-value" @bind="newEmployee.PlantId" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                            <input type="text" class="info-value" @bind="newEmployee.PlantId" />
                         </div>
                     </div>
 
@@ -100,15 +100,15 @@
                     <div class="info-grid">
                         <div class="info-item">
                             <span class="info-label">Date of Joining</span>
-                            <input type="text" class="info-value" @bind="newEmployee.DateOfJoining" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" placeholder="DD-MM-YYYY" />
+                            <input type="text" class="info-value" @bind="newEmployee.DateOfJoining" placeholder="DD-MM-YYYY" />
                         </div>
                         <div class="info-item">
                             <span class="info-label">Password</span>
-                            <input type="text" class="info-value" @bind="newEmployee.Password" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                            <input type="text" class="info-value" @bind="newEmployee.Password" />
                         </div>
-                        <div class="info-item">
-                            <button class="btn-view" @onclick="AddEmployee">Add Employee</button>
-                            <button class="btn-view" @onclick="CancelAddEmployee" style="background: #999; margin-top: 5px;">Cancel</button>
+                        <div class="info-item form-buttons">
+                            <button class="btn-view" @onclick="AddEmployee">Add</button>
+                            <button class="btn-view btn-cancel" @onclick="CancelAddEmployee">Cancel</button>
                         </div>
                     </div>
                 }
