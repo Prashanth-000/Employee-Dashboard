@@ -1,3 +1,178 @@
+
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    /* background: linear-gradient(107.44deg, #005C44 0.58%, #297B4B 100%); */
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: #006A4E;
+}
+
+.sidebar-header {
+    padding: 30px 25px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-title {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.sidebar-subtitle {
+    font-size: 13px;
+    font-weight: 400;
+    opacity: 0.95;
+}
+
+.nav-menu {
+    flex: 1;
+    padding: 15px 10px 15px 15px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.nav-item {
+    margin-bottom: 0px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 25px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+    position: relative;
+}
+
+    .nav-link:hover {
+        background-color: blue;
+        color: red;
+    }
+
+    /* .nav-link.active {
+                background-color: white;
+                color: #005C44;
+                border-left: 4px solid #005C44;
+                font-weight: 500;
+                border-radius: 25px 0 0 25px;
+                margin-left: 15px;
+                position: relative;
+            } */
+
+    .nav-link.active::before,
+    .nav-link.active::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        width: 15px;
+        height: 15px;
+        background-color: transparent;
+    }
+
+    .nav-link.active::before {
+        /* top: -15px; */
+        /* border-bottom-right-radius: 15px; */
+        /* box-shadow: 5px 5px 0 5px white; */
+    }
+
+    .nav-link.active::after {
+        /* bottom: -15px;
+                    border-top-right-radius: 15px; */
+        /* box-shadow: 5px -5px 0 5px white; */
+    }
+
+*/
+
+.nav-link .icon {
+    margin-right: 20px;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-link .chevron {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.nav-link.expanded .chevron {
+    transform: rotate(180deg);
+}
+
+.submenu {
+    background-color: rgba(0, 0, 0, 0.2);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+    .submenu.show {
+        max-height: 200px;
+    }
+
+    .submenu .nav-link {
+        padding-left: 60px;
+        font-size: 13px;
+    }
+
+.sidebar-footer {
+    padding: 20px 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sign-out {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+    .sign-out .icon {
+        margin-right: 12px;
+        font-size: 18px;
+    }
+
+    .sign-out:hover {
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+/* Scrollbar styling */
+.nav-menu::-webkit-scrollbar {
+    width: 4px;
+}
+
+.nav-menu::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+}
+
+.nav-link:active {
+    background-color: white;
+    color: #005C44;
+    border-left: 4px solid #005C44;
+    font-weight: 500;
+    border-radius: 25px 0 0 25px;
+    margin-left: 10px;
+    position: relative;
+}
 .navbar-toggler {
     appearance: none;
     cursor: pointer;
@@ -32,6 +207,7 @@
     margin-right: 0.75rem;
     top: -1px;
     background-size: cover;
+    
 }
 
 .bi-house-door-fill-nav-menu {
@@ -49,6 +225,7 @@
 .nav-item {
     font-size: 0.9rem;
     padding-bottom: 0.5rem;
+    font-weight: 400;
 }
 
     .nav-item:first-of-type {
@@ -69,17 +246,23 @@
         align-items: center;
         line-height: 3rem;
         width: 100%;
+        padding-left: 1.5rem;
     }
 
-.nav-item ::deep a.active {
-    background-color: rgba(255,255,255,0.37);
-    color: white;
-}
+    .nav-item ::deep a.active {
+        background-color: white;
+        color: #006A4E;
+        font-weight: 600;
+        width: 248px;
+        margin-right:0px;
+        border-radius: 15px 0,0 15px;
+    }
 
-.nav-item ::deep .nav-link:hover {
-    background-color: rgba(255,255,255,0.1);
-    color: white;
-}
+    .nav-item ::deep .nav-link:hover {
+        background-color: rgba(255,255,255,0.1);
+        color: white;
+        width: 248px;
+    }
 
 .nav-scrollable {
     display: none;
@@ -103,3 +286,4 @@
         overflow-y: auto;
     }
 }
+
