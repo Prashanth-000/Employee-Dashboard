@@ -1,0 +1,342 @@
+@page "/"
+@layout EmptyLayout
+@rendermode InteractiveServer
+@implements IDisposable
+
+<PageTitle>ANDON Dashboard</PageTitle>
+
+<style>
+        
+
+    </style>
+
+<div class="dashboard-container">
+    <div class="header">
+        <div class="header-left">
+            <a href="/employee-info" class="logo" style="text-decoration: none; cursor: pointer;">
+                <div class="logo-icon">C</div>
+                <div class="logo-text">CHAMUNDI<br>DIE CAST (P) LTD.</div>
+            </a>
+            <div class="dashboard-title"><span class="title-line-1">ANDON</span><br><span class="title-line-2">Dashboard</span></div>
+        </div>
+        <div class="header-right">
+            <div class="header-item">
+                <div class="header-label">Date</div>
+                <div class="header-value">@currentDate</div>
+            </div>
+            <div class="header-item">
+                <div class="header-label">Time</div>
+                <div class="header-value">@currentTime</div>
+            </div>
+            <div class="header-item">
+                <div class="header-label">Plant</div>
+                <div class="header-value">CDC - 01</div>
+            </div>
+            <div class="header-item">
+                <div class="header-label">Shift</div>
+                <div class="header-value">@currentShift</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-surface">
+    <div class="main-content">
+        <div class="left-panel">
+            <div class="panel-header">
+                <div>Part Number</div>
+                <div>Count/Target</div>
+                <div>% Completion</div>
+            </div>
+
+            @foreach (var part in parts)
+            {
+                <div class="part-row @(selectedParts.Contains(part) ? "highlight" : "")" 
+                     @onclick="() => TogglePartSelection(part)" 
+                     style="cursor: pointer;">
+                    <div class="part-number">@part.PartNumber</div>
+                    <div class="count-target">@part.Count/@part.Target</div>
+                    <div class="completion-section">
+                        <div class="completion-percent">@part.CompletionPercent%</div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" style="width: @part.CompletionPercent%"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="right-panel">
+            @foreach (var part in selectedParts)
+            {
+                <div class="card">
+                    <div class="card-title">Shift Part Count<br>@part.PartNumber</div>
+                    <div class="y-axis">
+                        @foreach (var yValue in part.YAxisValues)
+                        {
+                            <div>@yValue</div>
+                        }
+                    </div>
+                    <div class="chart-container">
+                        @foreach (var station in part.Stations)
+                        {
+                            <div class="bar-wrapper">
+                                <div class="bar" style="height: @station.BarHeight;">
+                                    <div class="bar-value">@station.Value</div>
+                                </div>
+                                <div class="operator-badge">
+                                    <div class="operator-dot @(station.IsYellow ? "yellow" : "")"></div>
+                                    <div class="operator-name">@station.StationId</div>
+                                </div>
+                                <div class="operator-name">@station.OperatorName</div>
+                            </div>
+                        }
+                    </div>
+                    @if (!string.IsNullOrEmpty(part.NotInProductionMessage))
+                    {
+                        <div class="not-in-production">@part.NotInProductionMessage</div>
+                    }
+                </div>
+            }
+
+            <div class="card inventory-section">
+                <div class="inventory-item">
+                    <div class="inventory-label">Shoeboxes in<br>Inventory</div>
+                    <div>
+                        <span class="inventory-value">751</span>
+                        <span class="inventory-unit">Nos.</span>
+                    </div>
+                </div>
+                <div class="inventory-item">
+                    <div class="inventory-label">Master boxes<br>ready for dispatch</div>
+                    <div>
+                        <span class="inventory-value">5</span>
+                        <span class="inventory-unit">Nos.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- close main-content -->
+        </div>
+        <div class="dashboard-footer">
+            <div class="footer-logo footer-logo-left">
+                <img src="AMIT_logo.png" alt="AMiT" class="footer-logo-image" />
+            </div>
+            <div class="footer-logo footer-logo-right">
+                <img src="ace-micro.png" alt="Ace Micromatic Group" class="footer-logo-image" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string currentDate = "";
+    private string currentTime = "";
+    private string currentShift = "";
+    private System.Threading.Timer? timer;
+    private List<Part> parts = new();
+    private List<Part> selectedParts = new();
+
+    protected override void OnInitialized()
+    {
+        InitializeParts();
+        UpdateDateTime();
+        timer = new System.Threading.Timer(async _ =>
+        {
+            UpdateDateTime();
+            await InvokeAsync(StateHasChanged);
+        }, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+    }
+
+    private void UpdateDateTime()
+    {
+        var now = DateTime.Now;
+        currentDate = now.ToString("dd-MM-yyyy");
+        currentTime = now.ToString("hh:mm tt").ToLower();
+        
+        // Determine shift based on time (example logic)
+        int hour = now.Hour;
+        if (hour >= 6 && hour < 14)
+            currentShift = "S-01";
+        else if (hour >= 14 && hour < 22)
+            currentShift = "S-02";
+        else
+            currentShift = "S-03";
+    }
+
+    private void InitializeParts()
+    {
+        parts = new List<Part>
+        {
+            new Part
+            {
+                PartNumber = "A1223450",
+                Count = 754,
+                Target = 1300,
+                CompletionPercent = 52.56m,
+                YAxisValues = new[] { "400", "350", "300", "250", "200", "150", "100", "50", "0" },
+                Stations = new List<Station>
+                {
+                    new Station { StationId = "S-01", OperatorName = "Operator 1", Value = 350, BarHeight = "28vh", IsYellow = false }
+                },
+                NotInProductionMessage = ""
+            },
+            new Part
+            {
+                PartNumber = "B1223450",
+                Count = 354,
+                Target = 1300,
+                CompletionPercent = 32.43m,
+                YAxisValues = new[] { "300", "250", "200", "150", "100", "50", "0" },
+                Stations = new List<Station>
+                {
+                    new Station { StationId = "S-05", OperatorName = "Operator 5", Value = 248, BarHeight = "31vh", IsYellow = false },
+                    new Station { StationId = "S-06", OperatorName = "Operator 6", Value = 260, BarHeight = "33vh", IsYellow = false }
+                },
+                NotInProductionMessage = ""
+            },
+            new Part
+            {
+                PartNumber = "C1223450",
+                Count = 412,
+                Target = 1300,
+                CompletionPercent = 41.34m,
+                YAxisValues = new[] { "60", "50", "40", "30", "20", "10", "0" },
+                Stations = new List<Station>
+                {
+                    new Station { StationId = "S-07", OperatorName = "Operator 7", Value = 86, BarHeight = "35vh", IsYellow = false }
+                },
+                NotInProductionMessage = ""
+            },
+            new Part
+            {
+                PartNumber = "D1223450",
+                Count = 1024,
+                Target = 1300,
+                CompletionPercent = 81.56m,
+                YAxisValues = new[] { "600", "500", "400", "300", "200", "100", "0" },
+                Stations = new List<Station>
+                {
+                    new Station { StationId = "S-08", OperatorName = "Operator 8", Value = 81, BarHeight = "16vh", IsYellow = true }
+                },
+                NotInProductionMessage = "Station 8 is not in production"
+            },
+            new Part
+            {
+                PartNumber = "E1223451",
+                Count = 761,
+                Target = 1300,
+                CompletionPercent = 53.46m,
+                YAxisValues = new[] { "500", "400", "300", "200", "100", "0" },
+                Stations = new List<Station>
+                {
+                    new Station { StationId = "S-02", OperatorName = "Operator 2", Value = 380, BarHeight = "30vh", IsYellow = false },
+                    new Station { StationId = "S-03", OperatorName = "Operator 3", Value = 381, BarHeight = "30vh", IsYellow = false }
+                },
+                NotInProductionMessage = ""
+            },
+            new Part
+            {
+                PartNumber = "F1223452",
+                Count = 167,
+                Target = 1300,
+                CompletionPercent = 12.96m,
+                YAxisValues = new[] { "200", "150", "100", "50", "0" },
+                Stations = new List<Station>
+                {
+                    new Station { StationId = "S-04", OperatorName = "Operator 4", Value = 167, BarHeight = "26vh", IsYellow = false }
+                },
+                NotInProductionMessage = ""
+            },
+            new Part
+            {
+                PartNumber = "G1223453",
+                Count = 346,
+                Target = 1300,
+                CompletionPercent = 26.76m,
+                YAxisValues = new[] { "400", "300", "200", "100", "0" },
+                Stations = new List<Station>
+                {
+                    new Station { StationId = "S-09", OperatorName = "Operator 9", Value = 346, BarHeight = "27vh", IsYellow = false }
+                },
+                NotInProductionMessage = ""
+            },
+            new Part
+            {
+                PartNumber = "H1223454",
+                Count = 952,
+                Target = 1300,
+                CompletionPercent = 79.12m,
+                YAxisValues = new[] { "600", "500", "400", "300", "200", "100", "0" },
+                Stations = new List<Station>
+                {
+                    new Station { StationId = "S-10", OperatorName = "Operator 10", Value = 476, BarHeight = "32vh", IsYellow = false },
+                    new Station { StationId = "S-11", OperatorName = "Operator 11", Value = 476, BarHeight = "32vh", IsYellow = false }
+                },
+                NotInProductionMessage = ""
+            },
+            new Part
+            {
+                PartNumber = "I1223455",
+                Count = 1204,
+                Target = 1300,
+                CompletionPercent = 93.76m,
+                YAxisValues = new[] { "700", "600", "500", "400", "300", "200", "100", "0" },
+                Stations = new List<Station>
+                {
+                    new Station { StationId = "S-12", OperatorName = "Operator 12", Value = 602, BarHeight = "34vh", IsYellow = false },
+                    new Station { StationId = "S-13", OperatorName = "Operator 13", Value = 602, BarHeight = "34vh", IsYellow = false }
+                },
+                NotInProductionMessage = ""
+            }
+        };
+
+        // Select first 3 parts by default
+        selectedParts = parts.Take(3).ToList();
+    }
+
+    private void TogglePartSelection(Part part)
+    {
+        if (selectedParts.Contains(part))
+        {
+            selectedParts.Remove(part);
+        }
+        else
+        {
+            if (selectedParts.Count < 3)
+            {
+                selectedParts.Add(part);
+            }
+            else
+            {
+                // Remove the first selected and add the new one
+                selectedParts.RemoveAt(0);
+                selectedParts.Add(part);
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+
+    private class Part
+    {
+        public string PartNumber { get; set; } = "";
+        public int Count { get; set; }
+        public int Target { get; set; }
+        public decimal CompletionPercent { get; set; }
+        public string[] YAxisValues { get; set; } = Array.Empty<string>();
+        public List<Station> Stations { get; set; } = new();
+        public string NotInProductionMessage { get; set; } = "";
+    }
+
+    private class Station
+    {
+        public string StationId { get; set; } = "";
+        public string OperatorName { get; set; } = "";
+        public int Value { get; set; }
+        public string BarHeight { get; set; } = "";
+        public bool IsYellow { get; set; }
+    }
+}

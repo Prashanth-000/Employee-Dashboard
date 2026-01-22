@@ -1,0 +1,410 @@
+﻿@page "/employee-info"
+@rendermode InteractiveServer
+
+<PageTitle>Employee Information - Chamundi Die Cast</PageTitle>
+
+<style>
+    body {
+        /* background: linear-gradient(107.44deg, #005C44 0.58%, #297B4B 100%); */
+        margin: 0;
+        padding: 0;
+        background-color: #006A4E;
+    }
+</style>
+<div class="page-wrapper">
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-section">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">
+                        CHAMUNDI<br>DIE CAST (P) LTD.
+                    </div>
+                </div>
+            </div>
+            <h1 class="header-title">Employee Information</h1>
+            <div class="menu-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+            <!-- Employee Information Card -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="header-left">
+                        <h2 class="section-title">Employee<br>Information</h2>
+                        <div class="search-controls">
+                            <div class="employee-select">
+                                <label>Employee ID</label>
+                                <select @bind="selectedEmployeeId">
+                                    <option value="">Select</option>
+                                    @foreach (var emp in employees)
+                                    {
+                                        <option value="@emp.EmployeeId">@emp.EmployeeId</option>
+                                    }
+                                </select>
+                            </div>
+                            <button class="btn-view" @onclick="ViewEmployee">View</button>
+                        </div>
+                    </div>
+                    <div class="section-icons">
+                        <div class="icon-circle"></div>
+                        <div class="icon-circle"></div>
+                    </div>
+                </div>
+
+                <div class="search-section">
+                    <a href="javascript:void(0)" class="add-employee" @onclick="ShowAddEmployeeForm">
+                        <i class="fas fa-plus-circle"></i> Add a new employee
+                    </a>
+                </div>
+
+                @if (showAddForm)
+                {
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Employee ID</span>
+                            <input type="text" class="info-value" @bind="newEmployee.EmployeeId" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Employee Name</span>
+                            <input type="text" class="info-value" @bind="newEmployee.Name" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Employee Role</span>
+                            <input type="text" class="info-value" @bind="newEmployee.Role" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Phone Number</span>
+                            <input type="text" class="info-value" @bind="newEmployee.PhoneNumber" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Station ID</span>
+                            <input type="text" class="info-email" @bind="newEmployee.StationId" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Plant ID</span>
+                            <input type="text" class="info-value" @bind="newEmployee.PlantId" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Date of Joining</span>
+                            <input type="text" class="info-value" @bind="newEmployee.DateOfJoining" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" placeholder="DD-MM-YYYY" />
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Password</span>
+                            <input type="text" class="info-value" @bind="newEmployee.Password" style="border: 1px solid #e0e0e0; border-radius: 5px; padding: 5px;" />
+                        </div>
+                        <div class="info-item">
+                            <button class="btn-view" @onclick="AddEmployee">Add Employee</button>
+                            <button class="btn-view" @onclick="CancelAddEmployee" style="background: #999; margin-top: 5px;">Cancel</button>
+                        </div>
+                    </div>
+                }
+                else if (selectedEmployee != null)
+                {
+                    <!-- Employee Details -->
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Employee ID</span>
+                            <span class="info-value">@selectedEmployee.EmployeeId</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Employee Name</span>
+                            <span class="info-value">@selectedEmployee.Name</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Employee Role</span>
+                            <span class="info-value">@selectedEmployee.Role</span>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Phone Number</span>
+                            <span class="info-value">@selectedEmployee.PhoneNumber</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Station ID</span>
+                            <span class="info-email">@selectedEmployee.StationId</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Plant ID</span>
+                            <span class="info-value">@selectedEmployee.PlantId</span>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Table -->
+                    <div class="table-container">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Date of Joining</th>
+                                    <th>Password</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@selectedEmployee.DateOfJoining</td>
+                                    <td>@selectedEmployee.Password</td>
+                                    <td><span class="status-badge">@selectedEmployee.Status</span></td>
+                                    <td>
+                                        <button class="action-btn" title="Delete" @onclick="() => DeleteEmployee(selectedEmployee.EmployeeId)">
+                                            🗑️
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                @if (showAllEmployees)
+                {
+                    <div class="divider"></div>
+                    <h3 style="color: #0a6847; font-size: 16px; margin: 15px 0;">All Employees</h3>
+                    <div class="table-container" style="max-height: 300px; overflow-y: auto;">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee ID</th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var emp in employees)
+                                {
+                                    <tr>
+                                        <td>@emp.EmployeeId</td>
+                                        <td>@emp.Name</td>
+                                        <td>@emp.Role</td>
+                                        <td>@emp.PhoneNumber</td>
+                                        <td><span class="status-badge">@emp.Status</span></td>
+                                        <td>
+                                            <button class="btn-view" @onclick="() => SelectEmployee(emp.EmployeeId)" style="padding: 5px 15px; font-size: 12px; margin-right: 5px;">View</button>
+                                            <button class="action-btn" title="Delete" @onclick="() => DeleteEmployee(emp.EmployeeId)">
+                                                🗑️
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+
+            @if (selectedEmployee != null)
+            {
+                <div class="view-all">
+                    <a href="javascript:void(0)" @onclick="ShowAllEmployees">View All</a>
+                </div>
+            }
+        </div>
+
+        <!-- Footer -->
+    <div class="dashboard-footer">
+        <div class="footer-logo footer-logo-left">
+            <img src="AMIT_logo.png" alt="AMiT" class="footer-logo-image" />
+        </div>
+        <div class="footer-logo footer-logo-right">
+            <img src="ace-micro.png" alt="Ace Micromatic Group" class="footer-logo-image" />
+        </div>
+    </div>
+    </div>
+</div>
+
+@code {
+private List<Employee> employees = new();
+private Employee? selectedEmployee;
+private string selectedEmployeeId = "";
+private bool showAddForm = false;
+private bool showAllEmployees = false;
+private Employee newEmployee = new();
+private ElementReference contentWrapperRef;
+
+    protected override void OnInitialized()
+    {
+        // Hard-coded 5 employees
+        employees = new List<Employee>
+        {
+            new Employee
+            {
+                EmployeeId = "A861",
+                Name = "Kare Gowda",
+                Role = "Manager",
+                PhoneNumber = "9686552083",
+                StationId = "karegowda@chamundidiecast.com",
+                PlantId = "UDC U-3",
+                DateOfJoining = "23-04-2015",
+                Password = "abcd81234",
+                Status = "ACTIVE"
+            },
+            new Employee
+            {
+                EmployeeId = "A862",
+                Name = "Rajesh Kumar",
+                Role = "Operator",
+                PhoneNumber = "9876543210",
+                StationId = "rajesh@chamundidiecast.com",
+                PlantId = "UDC U-2",
+                DateOfJoining = "15-08-2018",
+                Password = "raj12345",
+                Status = "ACTIVE"
+            },
+            new Employee
+            {
+                EmployeeId = "A863",
+                Name = "Priya Sharma",
+                Role = "Supervisor",
+                PhoneNumber = "9988776655",
+                StationId = "priya@chamundidiecast.com",
+                PlantId = "UDC U-1",
+                DateOfJoining = "10-01-2019",
+                Password = "priya9876",
+                Status = "ACTIVE"
+            },
+            new Employee
+            {
+                EmployeeId = "A864",
+                Name = "Suresh Reddy",
+                Role = "Technician",
+                PhoneNumber = "9123456789",
+                StationId = "suresh@chamundidiecast.com",
+                PlantId = "UDC U-3",
+                DateOfJoining = "05-06-2020",
+                Password = "sure4567",
+                Status = "ACTIVE"
+            },
+            new Employee
+            {
+                EmployeeId = "A865",
+                Name = "Anita Desai",
+                Role = "Quality Inspector",
+                PhoneNumber = "9556677889",
+                StationId = "anita@chamundidiecast.com",
+                PlantId = "UDC U-2",
+                DateOfJoining = "20-03-2021",
+                Password = "anita123",
+                Status = "ACTIVE"
+            }
+        };
+
+        // Show first employee by default
+        selectedEmployee = employees.First();
+        selectedEmployeeId = selectedEmployee.EmployeeId;
+    }
+
+    private void ViewEmployee()
+    {
+        if (!string.IsNullOrEmpty(selectedEmployeeId))
+        {
+            selectedEmployee = employees.FirstOrDefault(e => e.EmployeeId == selectedEmployeeId);
+            showAddForm = false;
+            showAllEmployees = false;
+        }
+    }
+
+    private void ShowAddEmployeeForm()
+    {
+        showAddForm = true;
+        showAllEmployees = false;
+        newEmployee = new Employee { Status = "ACTIVE" };
+        selectedEmployee = null;
+    }
+
+    private void ShowAllEmployees()
+    {
+        bool wasShowing = showAllEmployees;
+        showAllEmployees = !showAllEmployees;
+        
+        // When hiding, we don't need to do anything special
+        // When showing, the content will expand naturally
+    }
+
+    private void SelectEmployee(string employeeId)
+    {
+        selectedEmployeeId = employeeId;
+        selectedEmployee = employees.FirstOrDefault(e => e.EmployeeId == employeeId);
+        showAllEmployees = false;
+        showAddForm = false;
+    }
+
+    private void AddEmployee()
+    {
+        if (!string.IsNullOrEmpty(newEmployee.EmployeeId) && !string.IsNullOrEmpty(newEmployee.Name))
+        {
+            employees.Add(newEmployee);
+            selectedEmployee = newEmployee;
+            selectedEmployeeId = newEmployee.EmployeeId;
+            showAddForm = false;
+            newEmployee = new();
+        }
+    }
+
+    private void CancelAddEmployee()
+    {
+        showAddForm = false;
+        newEmployee = new();
+        if (!string.IsNullOrEmpty(selectedEmployeeId))
+        {
+            selectedEmployee = employees.FirstOrDefault(e => e.EmployeeId == selectedEmployeeId);
+        }
+    }
+
+    private void DeleteEmployee(string employeeId)
+    {
+        var empToDelete = employees.FirstOrDefault(e => e.EmployeeId == employeeId);
+        if (empToDelete != null)
+        {
+            employees.Remove(empToDelete);
+            if (employees.Any())
+            {
+                selectedEmployee = employees.First();
+                selectedEmployeeId = selectedEmployee.EmployeeId;
+            }
+            else
+            {
+                selectedEmployee = null;
+                selectedEmployeeId = "";
+            }
+        }
+    }
+
+    private class Employee
+    {
+        public string EmployeeId { get; set; } = "";
+        public string Name { get; set; } = "";
+        public string Role { get; set; } = "";
+        public string PhoneNumber { get; set; } = "";
+        public string StationId { get; set; } = "";
+        public string PlantId { get; set; } = "";
+        public string DateOfJoining { get; set; } = "";
+        public string Password { get; set; } = "";
+        public string Status { get; set; } = "";
+    }
+}
